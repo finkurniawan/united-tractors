@@ -6,52 +6,33 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Repositories\CategoryProductRepository;
+use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function __construct(private AuthService $authService){}
+
+    public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
         $validated = $request->safe()->only(['name','email', 'password']);
-
         try {
-            DB::beginTransaction();
+            $result = $this->authService->register($validated);
 
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => $validated['password']
-            ]);
-
-            if(!$token = auth('api')->attempt($validated)){
-                return $this->msgResponse('Unauthorized', 401);
-            }
-
-            DB::commit();
-
+            return $this->respondWithToken($result['user'],$result['token'],201);
         } catch (\Exception $exception){
-            DB::rollBack();
             return $this->msgResponse($exception->getMessage(), 500);
         }
-            return $this->respondWithToken($user,$token,201);
     }
 
     public function login(LoginRequest $request)
     {
         $validated = $request->safe()->only(['email','password']);
 
-        $credentials = [
-            'email' => $validated['email'],
-            'password' => $validated['password']
-        ];
+        $result = $this->authService->login($validated);
 
-        if(! $token = auth('api')->attempt($credentials)){
-            return $this->msgResponse('Unauthorized' . $token, 401);
-        }
-
-        $user = auth('api')->user();
-
-        return $this->respondWithToken($user,$token,200);
+        return $this->respondWithToken($result['user'],$result['token'],200);
     }
 
     public function logout(): \Illuminate\Http\JsonResponse
