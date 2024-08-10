@@ -54,14 +54,14 @@ class AuthController extends Controller
         return $this->respondWithToken($user,$token,200);
     }
 
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         auth()->logout();
 
         return $this->msgResponse('Successfully logged out');
     }
 
-    protected function respondWithToken($user,$token,$code)
+    protected function respondWithToken($user,$token,$code): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'user' => $user,
