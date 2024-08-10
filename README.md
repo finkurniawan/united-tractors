@@ -1,66 +1,415 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# UNITED TRACTORS API Documentation
 
-## About Laravel
+Welcome to the **UNITED TRACTORS** API documentation. This API allows you to manage users, product categories, and products with ease. Below you will find comprehensive details on how to interact with the API, including authentication methods, endpoints, request examples, responses, and output formats.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Overview](#overview)
+- [Swagger](#swagger)
+- [Authentication](#authentication)
+- [API Endpoints](#api-endpoints)
+    - [Authentication](#authentication)
+    - [Category Products](#category-products)
+    - [Products](#products)
+- [Usage Examples](#usage-examples)
+- [Contributing](#contributing)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Overview
 
-## Learning Laravel
+The API base URL is: `http://localhost:8000/api`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+API Version: `1.0.0`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Swagger File
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+[Swagger](docs/api/specification.yaml)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## API Endpoints
 
-### Premium Partners
+### Authentication
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+#### Register a New User
+
+- **Endpoint:** `/register`
+- **Method:** `POST`
+- **Description:** Register a new user in the system.
+- **Request Body:**
+
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "securepassword"
+  }
+  ```
+
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      {
+        "message": "User registered successfully."
+      }
+      ```
+
+#### Login
+
+- **Endpoint:** `/login`
+- **Method:** `POST`
+- **Description:** Authenticate an existing user and obtain a token.
+- **Request Body:**
+
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "securepassword"
+  }
+  ```
+
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      {
+        "token": "your_jwt_token"
+      }
+      ```
+
+### Category Products
+
+#### Create a New Category Product
+
+- **Endpoint:** `/category-products`
+- **Method:** `POST`
+- **Description:** Create a new product category.
+- **Request Body:**
+
+  ```json
+  {
+    "name": "Electronics"
+  }
+  ```
+
+- **Responses:**
+    - **201 Created:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "Electronics"
+      }
+      ```
+
+#### Retrieve All Categories
+
+- **Endpoint:** `/category-products`
+- **Method:** `GET`
+- **Description:** Fetch a list of all product categories.
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      [
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440000",
+          "name": "Electronics"
+        },
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440001",
+          "name": "Books"
+        }
+      ]
+      ```
+
+#### Retrieve a Category by ID
+
+- **Endpoint:** `/category-products/{category_product_id}`
+- **Method:** `GET`
+- **Description:** Fetch a specific product category by its ID.
+- **Parameters:**
+    - `category_product_id` (path): The UUID of the category to retrieve.
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "Electronics"
+      }
+      ```
+
+#### Update a Category Product
+
+- **Endpoint:** `/category-products/{category_product_id}`
+- **Method:** `PUT`
+- **Description:** Update an existing product category.
+- **Request Body:**
+
+  ```json
+  {
+    "name": "Updated Electronics"
+  }
+  ```
+
+- **Parameters:**
+    - `category_product_id` (path): The UUID of the category to update.
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "Updated Electronics"
+      }
+      ```
+
+#### Delete a Category Product
+
+- **Endpoint:** `/category-products/{category_product_id}`
+- **Method:** `DELETE`
+- **Description:** Delete a specific product category.
+- **Parameters:**
+    - `category_product_id` (path): The UUID of the category to delete.
+- **Responses:**
+    - **204 No Content:** (No response body)
+
+### Products
+
+#### Create a New Product
+
+- **Endpoint:** `/products`
+- **Method:** `POST`
+- **Description:** Add a new product to a category.
+- **Request Body:** `multipart/form-data`
+
+  ```json
+  {
+    "image": "imagefile",
+    "category_product_id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "Product Name",
+    "price": "100.00"
+  }
+  ```
+
+- **Responses:**
+    - **201 Created:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "category_product_id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "Product Name",
+        "price": "100.00",
+        "image_url": "/path/to/imagefile"
+      }
+      ```
+
+#### Retrieve All Products
+
+- **Endpoint:** `/products`
+- **Method:** `GET`
+- **Description:** Fetch a list of all products.
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      [
+        {
+          "id": "550e8400-e29b-41d4-a716-446655440000",
+          "category_product_id": "550e8400-e29b-41d4-a716-446655440000",
+          "name": "Product Name",
+          "price": "100.00",
+          "image_url": "/path/to/imagefile"
+        }
+      ]
+      ```
+
+#### Retrieve a Product by ID
+
+- **Endpoint:** `/products/{product_id}`
+- **Method:** `GET`
+- **Description:** Fetch details of a specific product by its ID.
+- **Parameters:**
+    - `product_id` (path): The UUID of the product to retrieve.
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "category_product_id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "Product Name",
+        "price": "100.00",
+        "image_url": "/path/to/imagefile"
+      }
+      ```
+
+#### Update a Product
+
+- **Endpoint:** `/products/{product_id}`
+- **Method:** `POST`
+- **Description:** Update details of an existing product.
+- **Request Body:** `multipart/form-data`
+
+  ```json
+  {
+    "image": "updatedimagefile",
+    "category_product_id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "Updated Product Name",
+    "price": "150.00"
+  }
+  ```
+
+- **Parameters:**
+    - `_method` (query): Use `PUT` to perform an update.
+    - `product_id` (path): The UUID of the product to update.
+- **Responses:**
+    - **200 OK:**
+
+      ```json
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "category_product_id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "Updated Product Name",
+        "price": "150.00",
+        "image_url": "/path/to/updatedimagefile"
+      }
+      ```
+
+#### Delete a Product
+
+- **Endpoint:** `/products/{product_id}`
+- **Method:** `DELETE`
+- **Description:** Delete a specific product.
+- **Parameters:**
+    - `product_id` (path): The UUID of the product to delete.
+- **Responses:**
+    - **204 No Content:** (No response body)
+
+## Usage Examples
+
+### Example: Register a New User
+
+```bash
+curl -X POST "http://localhost:8000/api/register" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "password": "mypassword123"
+}'
+```
+
+### Example: Log In
+
+```bash
+curl -X POST "http://localhost:8000/api/login" \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "jane.doe@example.com",
+  "password": "mypassword123"
+}'
+```
+
+### Example: Create a New Product Category
+
+```bash
+curl -X POST "http://localhost:8000/api/category-products" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer your_jwt_token" \
+-d '{
+  "name": "Books"
+}'
+```
+
+### Example: Retrieve All Product Categories
+
+```bash
+curl -X GET "http://localhost:8000/api/category-products" \
+-H "Authorization: Bearer your_jwt_token"
+```
+
+### Example: Retrieve a Category by ID
+
+```bash
+curl -X GET "http://localhost:8000/api/category-products/550e8400-e29b-41d4-a716-446655440000" \
+-H "Authorization: Bearer your_jwt_token"
+```
+
+### Example: Update a Product Category
+
+```bash
+curl -X PUT "http://localhost:8000/api/category-products/550e8400-e29b-41d4-a716-446655440000" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer your_jwt_token" \
+-d '{
+  "name": "Updated Books"
+}'
+```
+
+### Example: Delete a Product Category
+
+```bash
+curl -X DELETE "http://localhost:8000/api/category-products/550e8400-e29b-41d4-a716-446655440000" \
+-H "Authorization: Bearer your_jwt_token"
+```
+
+### Example: Create a New Product
+
+```bash
+curl -X POST "http://localhost:8000/api/products" \
+-H "Content-Type: multipart/form-data" \
+-H "Authorization: Bearer your_jwt_token" \
+-F "image=@/path/to/image.jpg" \
+-F "category_product_id=550e8400-e29b-41d4-a716-446655440000" \
+-F "name=The Great Gatsby" \
+-F "price=15.99"
+```
+
+### Example: Retrieve All Products
+
+```bash
+curl -X GET "http://localhost:8000/api/products" \
+-H "Authorization: Bearer your_jwt_token"
+```
+
+### Example: Retrieve a Product by ID
+
+```bash
+curl -X GET "http://localhost:8000/api/products/550e8400-e29b-41d4-a716-446655440000" \
+-H "Authorization: Bearer your_jwt_token"
+```
+
+### Example: Update a Product
+
+```bash
+curl -X POST "http://localhost:8000/api/products/550e8400-e29b-41d4-a716-446655440000?_method=PUT" \
+-H "Content-Type: multipart/form-data" \
+-H "Authorization: Bearer your_jwt_token" \
+-F "image=@/path/to/updated_image.jpg" \
+-F "category_product_id=550e8400-e29b-41d4-a716-446655440000" \
+-F "name=Updated Product Name" \
+-F "price=19.99"
+```
+
+### Example: Delete a Product
+
+```bash
+curl -X DELETE "http://localhost:8000/api/products/550e8400-e29b-41d4-a716-446655440000" \
+-H "Authorization: Bearer your_jwt_token"
+```
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+We welcome contributions to improve the API. To contribute:
 
-## Code of Conduct
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -am 'Add new feature'`).
+4. Push your branch to the forked repository (`git push origin feature-branch`).
+5. Open a pull request to the main repository.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---

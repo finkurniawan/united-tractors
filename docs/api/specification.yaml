@@ -1,0 +1,867 @@
+openapi: 3.0.0
+info:
+  title: UNITED TRACTORS
+  version: 1.0.0
+servers:
+  - url: http://{{base_url}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Authentication
+  - name: Category Product
+  - name: Product
+paths:
+  /register:
+    post:
+      tags:
+        - Authentication
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: '{{$randomUserName}}'
+                email: '{{$randomEmail}}'
+                password: '{{$randomPassword}}'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:48:22 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                user:
+                  name: Demario41
+                  email: Skye.Ondricka61@hotmail.com
+                  id: 9cbbd1a7-5817-473b-a593-950e0204b236
+                  updated_at: '2024-08-10T15:48:22.000000Z'
+                  created_at: '2024-08-10T15:48:22.000000Z'
+                access_token: >-
+                  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNzIzMzA0OTAyLCJleHAiOjE3MjMzMDg1MDIsIm5iZiI6MTcyMzMwNDkwMiwianRpIjoiTzZEVk5JOEtVYU1CQ1hRMCIsInN1YiI6IjljYmJkMWE3LTU4MTctNDczYi1hNTkzLTk1MGUwMjA0YjIzNiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.d1EtkBKlVAkSKY9GVwxiui2g9tBZjpnuiz5w6frNY2A
+                token_type: bearer
+                expires_in: 3600
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: '{{email}}'
+                password: '{{password}}'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:48:52 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                user:
+                  id: 9cbbd1a7-5817-473b-a593-950e0204b236
+                  name: Demario41
+                  email: Skye.Ondricka61@hotmail.com
+                  email_verified_at: null
+                  created_at: '2024-08-10T15:48:22.000000Z'
+                  updated_at: '2024-08-10T15:48:22.000000Z'
+                access_token: >-
+                  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzIzMzA0OTMyLCJleHAiOjE3MjMzMDg1MzIsIm5iZiI6MTcyMzMwNDkzMiwianRpIjoiNjNWQzFMYXhlVlA2MUE0ZCIsInN1YiI6IjljYmJkMWE3LTU4MTctNDczYi1hNTkzLTk1MGUwMjA0YjIzNiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.HOC41xk5sKxLkGoeVbU0FlafwsmTZTkXMIiby6P8c2Y
+                token_type: bearer
+                expires_in: 3600
+  /category-products:
+    post:
+      tags:
+        - Category Product
+      summary: Create Category Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: 'Category : {{$randomUserName}}'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:49:06 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  id: 9cbbd1eb-5027-4731-9cfb-557c68ffd3d4
+                  name: 'Category : Giovanny.Deckow'
+                  created_at: '2024-08-10T15:49:06.000000Z'
+                  updated_at: '2024-08-10T15:49:06.000000Z'
+    get:
+      tags:
+        - Category Product
+      summary: Get All Category Product
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:55:43 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  - id: 9cbb923f-526c-45f3-acaa-69d82f785e89
+                    name: Marcos Metz MD
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-53ce-48a1-8c43-ed6ea976c043
+                    name: Leif Aufderhar
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-54e7-4190-a598-860ba0438243
+                    name: Heber Collins
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-55f6-495c-994e-c4903cbb902f
+                    name: Dr. Willard Eichmann DVM
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-56f6-4704-98ff-f136426be595
+                    name: Carlotta O'Conner
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb927b-e2ff-4891-9d88-4d3d17f626d4
+                    name: Rodrick Stracke
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                  - id: 9cbb927b-e419-4b85-becf-391988c5fa9f
+                    name: Emmitt Heathcote
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                  - id: 9cbb927b-e62f-446c-9088-1f68f02e5242
+                    name: Mr. Glennie Pagac
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                links:
+                  first: http://localhost:8000/api/category-products?page=1
+                  last: http://localhost:8000/api/category-products?page=2
+                  prev: null
+                  next: http://localhost:8000/api/category-products?page=2
+                meta:
+                  current_page: 1
+                  from: 1
+                  last_page: 2
+                  links:
+                    - url: null
+                      label: '&laquo; Previous'
+                      active: false
+                    - url: http://localhost:8000/api/category-products?page=1
+                      label: '1'
+                      active: true
+                    - url: http://localhost:8000/api/category-products?page=2
+                      label: '2'
+                      active: false
+                    - url: http://localhost:8000/api/category-products?page=2
+                      label: Next &raquo;
+                      active: false
+                  path: http://localhost:8000/api/category-products
+                  per_page: 8
+                  to: 8
+                  total: 15
+  /category-products/{category_product_id}:
+    get:
+      tags:
+        - Category Product
+      summary: Get Category Product By Id
+      parameters:
+        - name: category_product_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:50:15 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  id: 9cbb927b-e525-4f79-bf9e-70cc3e7e5798
+                  name: Mary Skiles
+                  created_at: '2024-08-10T12:51:44.000000Z'
+                  updated_at: '2024-08-10T12:51:44.000000Z'
+    put:
+      tags:
+        - Category Product
+      summary: Update Category Product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: 'Category Update : {{$randomUserName}}'
+      parameters:
+        - name: category_product_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:50:27 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '57'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  id: 9cbb927b-e525-4f79-bf9e-70cc3e7e5798
+                  name: 'Category Update : Coralie35'
+                  created_at: '2024-08-10T12:51:44.000000Z'
+                  updated_at: '2024-08-10T15:50:27.000000Z'
+    delete:
+      tags:
+        - Product
+      summary: Delete Product
+      parameters:
+        - name: category_product_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: null
+  /products:
+    post:
+      tags:
+        - Product
+      summary: Create Category Product
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                category_product_id:
+                  type: string
+                  example: '{{category_product_id}}'
+                name:
+                  type: string
+                  example: product - {{category_product_id}}
+                price:
+                  type: string
+                  example: '{{$randomInt}}'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:51:23 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  id: 9cbbd2bc-804d-443d-8437-cfdf78247efc
+                  category_product_id: 9cbb927b-e525-4f79-bf9e-70cc3e7e5798
+                  name: product - 9cbb927b-e525-4f79-bf9e-70cc3e7e5798
+                  price: '246'
+                  image: images/66b78c7bce055.jpg
+                  created_at: '2024-08-10T15:51:23.000000Z'
+                  updated_at: '2024-08-10T15:51:23.000000Z'
+    get:
+      tags:
+        - Product
+      summary: Get All Category Product
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:51:43 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  - id: 9cbb923f-5a7e-4955-8f34-ac3d09c6d6c2
+                    category_product_id: 9cbb923f-54e7-4190-a598-860ba0438243
+                    name: Alvena Adams
+                    price: 57411024
+                    image: >-
+                      https://via.placeholder.com/640x480.png/0044ee?text=expedita
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-5ba7-4374-8a28-842adfb1f664
+                    category_product_id: 9cbb923f-526c-45f3-acaa-69d82f785e89
+                    name: Arvel Gerlach
+                    price: 27583928
+                    image: https://via.placeholder.com/640x480.png/0088ff?text=minima
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-5cc1-4d0d-a733-4a680e42c541
+                    category_product_id: 9cbb923f-526c-45f3-acaa-69d82f785e89
+                    name: Ashtyn Balistreri
+                    price: 69
+                    image: https://via.placeholder.com/640x480.png/0088cc?text=vel
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-5dd0-4453-8cc7-a4a1b592ded4
+                    category_product_id: 9cbb923f-526c-45f3-acaa-69d82f785e89
+                    name: Marc Haag
+                    price: 10
+                    image: >-
+                      https://via.placeholder.com/640x480.png/00ee66?text=cupiditate
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb923f-5ed1-417e-ba54-501d249ccd0b
+                    category_product_id: 9cbb923f-56f6-4704-98ff-f136426be595
+                    name: Raquel Cartwright
+                    price: 10
+                    image: >-
+                      https://via.placeholder.com/640x480.png/0088bb?text=similique
+                    created_at: '2024-08-10T12:51:04.000000Z'
+                    updated_at: '2024-08-10T12:51:04.000000Z'
+                  - id: 9cbb927c-0726-4e47-ad97-aeb674ae8aab
+                    category_product_id: 9cbb927b-e62f-446c-9088-1f68f02e5242
+                    name: Ms. Alba Bergstrom
+                    price: 36266
+                    image: >-
+                      https://via.placeholder.com/640x480.png/00dd11?text=aliquam
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                  - id: 9cbb927c-082a-4088-a55b-ba2c046a428c
+                    category_product_id: 9cbb923f-55f6-495c-994e-c4903cbb902f
+                    name: Bonnie Lesch
+                    price: 19860432
+                    image: https://via.placeholder.com/640x480.png/00aaee?text=amet
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                  - id: 9cbb927c-093d-45f9-8e78-91f4dbe24fc0
+                    category_product_id: 9cbb927b-eb5d-48c6-b475-7ad1f80903b0
+                    name: Darwin Mills
+                    price: 8957973
+                    image: >-
+                      https://via.placeholder.com/640x480.png/00ddbb?text=consequatur
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                  - id: 9cbb927c-0a33-4e89-aedb-467307269dbe
+                    category_product_id: 9cbb927b-e2ff-4891-9d88-4d3d17f626d4
+                    name: Mable Cartwright
+                    price: 2389
+                    image: >-
+                      https://via.placeholder.com/640x480.png/00dddd?text=officiis
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T12:51:44.000000Z'
+                  - id: 9cbb927c-0b3b-4a2b-a0ce-c17103f012fe
+                    category_product_id: 9cbb927b-e73b-4edd-85f8-49f2da025a22
+                    name: product update - 9cbb927b-e73b-4edd-85f8-49f2da025a22
+                    price: 105
+                    image: images/66b780754c2b6.jpg
+                    created_at: '2024-08-10T12:51:44.000000Z'
+                    updated_at: '2024-08-10T15:00:05.000000Z'
+                links:
+                  first: http://localhost:8000/api/products?page=1
+                  last: http://localhost:8000/api/products?page=12
+                  prev: null
+                  next: http://localhost:8000/api/products?page=2
+                meta:
+                  current_page: 1
+                  from: 1
+                  last_page: 12
+                  links:
+                    - url: null
+                      label: '&laquo; Previous'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=1
+                      label: '1'
+                      active: true
+                    - url: http://localhost:8000/api/products?page=2
+                      label: '2'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=3
+                      label: '3'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=4
+                      label: '4'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=5
+                      label: '5'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=6
+                      label: '6'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=7
+                      label: '7'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=8
+                      label: '8'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=9
+                      label: '9'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=10
+                      label: '10'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=11
+                      label: '11'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=12
+                      label: '12'
+                      active: false
+                    - url: http://localhost:8000/api/products?page=2
+                      label: Next &raquo;
+                      active: false
+                  path: http://localhost:8000/api/products
+                  per_page: 10
+                  to: 10
+                  total: 111
+  /products/{product_id}:
+    get:
+      tags:
+        - Product
+      summary: Get Category Product By Id
+      parameters:
+        - name: product_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:51:55 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '57'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  id: 9cbb927c-0b3b-4a2b-a0ce-c17103f012fe
+                  category_product_id: 9cbb927b-e73b-4edd-85f8-49f2da025a22
+                  name: product update - 9cbb927b-e73b-4edd-85f8-49f2da025a22
+                  price: 105
+                  image: images/66b780754c2b6.jpg
+                  created_at: '2024-08-10T12:51:44.000000Z'
+                  updated_at: '2024-08-10T15:00:05.000000Z'
+    post:
+      tags:
+        - Product
+      summary: Update Product
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  example: test
+                category_product_id:
+                  type: string
+                  example: '{{category_product_id}}'
+                name:
+                  type: string
+                  example: product update - {{category_product_id}}
+                price:
+                  type: string
+                  example: '{{$randomInt}}'
+      parameters:
+        - name: _method
+          in: query
+          schema:
+            type: string
+          example: PUT
+        - name: product_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            Connection:
+              schema:
+                type: string
+                example: close
+            X-Powered-By:
+              schema:
+                type: number
+                example: PHP/8.2.19
+            Content-Type:
+              schema:
+                type: string
+                example: text/html; charset=UTF-8
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 10 Aug 2024 15:52:07 GMT
+            Set-Cookie:
+              schema:
+                type: string
+                example: >-
+                  laravel_session=eyJpdiI6IjNva0lVTVcyMlZtUHFDZ0M1c2loWGc9PSIsInZhbHVlIjoiOFh1YXkrSitsRWgxWTBrOExKbEwvdXNaMGtIQTFGQTAydHlTVTFGTG5yb0FRUkhKTVJyMWdhc3ZLYTE1L3hHT09iUjhDbVA2WWdyQXBMcytSeG5jQ3I5LzFkbXl4UXhkQzlpS1pBR3VqMmRXbndXdDJhQjNObXloSFJ3Wm1MdEYiLCJtYWMiOiIwYjgwZTRiNWM3OGNkM2YwZDZkYmEwNjhlNTExM2E2YTVlNTRmZGM1NTNkMGFiYWI3NmYxOWYwMDNiYWE2MTBiIiwidGFnIjoiIn0%3D;
+                  expires=Sat, 10 Aug 2024 17:52:07 GMT; Max-Age=7200; path=/;
+                  httponly; samesite=lax
+          content:
+            text/plain:
+              schema:
+                type: string
+              example:
